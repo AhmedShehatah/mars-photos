@@ -1,6 +1,7 @@
 package com.shehatah.marsphotos.di
 
 import com.shehatah.marsphotos.core.Constants
+import com.shehatah.marsphotos.data.MarsApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,5 +42,11 @@ object NetworkModule {
             .addConverterFactory(ScalarsConverterFactory.create())
             .client(okHttpClient)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideMarsApiService(retrofit: Retrofit): MarsApiService {
+        return retrofit.create(MarsApiService::class.java)
     }
 }
