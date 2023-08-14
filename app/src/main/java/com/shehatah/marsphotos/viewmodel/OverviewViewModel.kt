@@ -7,6 +7,7 @@ import com.shehatah.marsphotos.repo.MarsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,11 +15,17 @@ class OverviewViewModel @Inject constructor(private val repo: MarsRepo) : ViewMo
 
 
     private val _photos = MutableStateFlow<List<MarsPhoto>?>(null)
-    val photos = _photos
+    val photos: MutableStateFlow<List<MarsPhoto>?> = _photos
     fun getMarsPhotos() {
 
-        viewModelScope.launch {
-            _photos.value = repo.getPhotos()
+        try {
+
+            viewModelScope.launch {
+                _photos.value = repo.getPhotos()
+            }
+            Timber.i("Got Data here")
+        } catch (e: Exception) {
+            Timber.e("OverviewModel error", e)
         }
     }
 
