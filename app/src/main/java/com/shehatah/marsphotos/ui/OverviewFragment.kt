@@ -25,7 +25,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         lifecycleScope.launch {
             viewModel.photos.collect {
-                binding.response.text = it ?: "no data yet"
+                binding.response.text = it?.toString() ?: "not yet"
             }
         }
 
